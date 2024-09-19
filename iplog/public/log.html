@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Log Data</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #1d1f22; /* Dark blue background */
+      color: #ffffff; /* White text */
+      font-family: 'Arial', sans-serif;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+     /* Lighter blue for the container */
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .log-entry {
+      border-bottom: 1px solid #93c5fd;
+      padding: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- <div class="container bg-gradient-to-r from-cyan-500 to-blue-500"> -->
+  <div class="container bg-gradient-to-r from-slate-900 to-slate-700">
+    <h1 class="text-4xl font-bold mb-6">IP Log Data</h1>
+    <div id="logDataContainer ">
+      <!-- IP log data will be inserted here -->
+       
+    </div>
+  </div>
+
+  <script>
+    async function fetchLogData() {
+      try {
+        const response = await fetch('/api/logdata');
+        const data = await response.json();
+        const logContainer = document.getElementById('logDataContainer');
+
+        if (data.length === 0) {
+          logContainer.innerHTML = '<p>No log data available.</p>';
+          return;
+        }
+
+        data.forEach(log => {
+          const logEntry = document.createElement('div');
+          logEntry.classList.add('log-entry');
+          logEntry.innerHTML = `
+            <p><strong>IP:</strong> ${log.ip}</p>
+            <p><strong>Last Visit:</strong> ${log.lastVisit}</p>
+            <p><strong>Number of Visits:</strong> ${log.visits}</p>
+          `;
+          logContainer.appendChild(logEntry);
+        });
+      } catch (error) {
+        console.error('Error fetching log data:', error);
+      }
+    }
+
+    // Fetch log data when the page loads
+    window.onload = fetchLogData;
+  </script>
+</body>
+</html>

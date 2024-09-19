@@ -1,2 +1,3 @@
-node_modulesgit commit -m "first commit"cat ~/.ssh/id_ed25519.pub
+node_modules
+# git commit -m "first commit"cat ~/.ssh/id_ed25519.pub
 
